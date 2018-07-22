@@ -1,4 +1,5 @@
-import { GameAvailablePlay, GameResult } from '../../../models/index';
+import { GameAvailablePlay, GameResult } from '../../../models';
+
 
 export const learn = (rules: { [key: string]: { [key: string]: number } }) =>
   (winner: GameAvailablePlay | string, loser: GameAvailablePlay | string): { [key: string]: { [key: string]: number } } => {

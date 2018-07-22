@@ -2,6 +2,13 @@ import { initialState, reducer } from './referee.reducer';
 import { GameAvailablePlay, GameResult, Match, Player, PlayerType, Rule } from '../../models';
 import { JudgeGame, NewMatch, NewRule } from '../../actions/referee/referee.actions';
 
+const testPlayer: Player = {
+  name: 'TestPlayer1',
+  playerType: PlayerType.HUMAN,
+  score: 0
+};
+const match: Match = { matchId: 'testMatch', player1: testPlayer, player2: testPlayer, gameResults: [] };
+
 describe('Referee Reducer', () => {
 
   describe('unknown action', () => {
@@ -28,6 +35,13 @@ describe('Referee Reducer', () => {
     });
   });
 
+  describe('new match rule', () => {
+    it('should add a new match to the referee state', () => {
+      const result = reducer(initialState, new NewMatch(match));
+      expect(result.matches['testMatch']).toEqual(match);
+    });
+  });
+
   describe('judge action', () => {
     let refereeState = initialState;
     beforeAll(() => {
@@ -40,12 +54,7 @@ describe('Referee Reducer', () => {
       rules.forEach((rule: Rule) => {
         refereeState = reducer(refereeState, new NewRule(rule));
       });
-      const testPlayer: Player = {
-        name: 'TestPlayer1',
-        playerType: PlayerType.HUMAN,
-        score: 0
-      };
-      const match: Match = { matchId: 'testMatch', player1: testPlayer, player2: testPlayer, gameResults: [] };
+
       refereeState = reducer(refereeState, new NewMatch(match));
     });
 
